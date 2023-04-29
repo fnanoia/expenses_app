@@ -21,9 +21,6 @@ export class UserEntity {
   @Column({ type: 'varchar', length: '20', nullable: false })
   password: string;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
   @OneToMany(() => IncomeEntity, (income) => income.user)
   @JoinColumn()
   incomes: IncomeEntity[];
@@ -32,6 +29,9 @@ export class UserEntity {
   @JoinColumn()
   outcomes: OutcomeEntity[];
 
-  @Column()
-  test: string;
+  @Column({ type: 'int', nullable: false })
+  initial_budget: number;
+
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
 }

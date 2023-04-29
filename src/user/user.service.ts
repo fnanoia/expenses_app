@@ -26,7 +26,6 @@ export class UserService {
   ) {}
 
   //metodos para interactuar con la bbdd
-
   async getAll(): Promise<UserEntity[]> {
     return await this.userRepository.find({
       relations: ['incomes', 'outcomes'],
@@ -53,9 +52,6 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<any> {
-    //const userEmail = await this.findByEmail(createUserDto.email);
-    //if (userEmail) {      throw new BadRequestException({ message: 'email is already taken' });}
-
     const user = await this.userRepository.create(createUserDto);
 
     await this.userRepository.save(user);
@@ -68,6 +64,9 @@ export class UserService {
     const newUser: UpdateUserDto = {
       email: updateUserDto.email ? updateUserDto.email : user.email,
       password: updateUserDto.password ? updateUserDto.password : user.password,
+      initial_budget: updateUserDto.initial_budget
+        ? updateUserDto.initial_budget
+        : user.initial_budget,
     };
 
     await this.userRepository.update(id, newUser);
@@ -116,11 +115,6 @@ export class UserService {
   //metodos de calculos
   //suma de ingresos
   async getIncomesByUserId(id: number): Promise<any> {
-    const user = await this.userRepository.find({
-      where: { id: id },
-    });
-    //console.log(user);
-
     const totalIncomes = await this.incomesRepository
       .createQueryBuilder('user_incomes')
       .select('SUM(user_incomes.amount)', 'total_amount')
@@ -132,10 +126,6 @@ export class UserService {
 
   //suma de egresos
   async getOutcomesByUserId(id: number): Promise<any> {
-    const user = await this.userRepository.find({
-      where: { id: id },
-    });
-
     const totalOutcomes = await this.outcomesRepository
       .createQueryBuilder('user_outomes')
       .select('SUM(user_outomes.amount)', 'total_amount')
@@ -146,13 +136,15 @@ export class UserService {
   }
 
   //balance
-
   async getBalanceByUserId(id: number) {
+    const userBudget = (await this.findById(id)).initial_budget;
+
     const incomes = parseFloat(await this.getIncomesByUserId(id));
     const outcomes = parseFloat(await this.getOutcomesByUserId(id));
 
-    const sum = incomes + outcomes;
+    //calcular presupuesto incial mas ingresos menos gastos
+    const totalSum = userBudget + incomes - outcomes;
 
-    return sum;
+    return totalSum;
   }
 }
