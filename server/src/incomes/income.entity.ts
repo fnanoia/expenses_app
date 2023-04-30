@@ -1,6 +1,7 @@
 import { UserEntity } from 'src/user/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+//refactor
 export enum IncomeType {
   SALARY = 'salary',
   INVERSION = 'inversion',

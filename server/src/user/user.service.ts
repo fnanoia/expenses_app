@@ -81,7 +81,7 @@ export class UserService {
 
   async deleteAll(): Promise<any> {
     //await this.outcomesRepository.delete({})
-    await this.incomesRepository.delete({})
+    //await this.incomesRepository.delete({})
     //await this.userRepository.delete({})
   }
 
