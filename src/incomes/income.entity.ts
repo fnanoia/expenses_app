@@ -1,10 +1,18 @@
 import { UserEntity } from 'src/user/user.entity';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+export enum IncomeType {
+  SALARY = 'salary',
+  INVERSION = 'inversion',
+  DEBT = 'debt',
+  SALE = 'sale',
+  OTHER = 'other',
+}
+
+export enum IncomeMethod {
+  CASH = 'cash',
+  DEBIT_CARD = 'debit_card',
+}
 
 @Entity({ name: 'user_incomes' })
 export class IncomeEntity {
@@ -19,5 +27,13 @@ export class IncomeEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.incomes)
   user: UserEntity;
-  //tipo de gastos
+
+  //tipo de ganancia
+  @Column({ type: 'enum', enum: IncomeType })
+  income_type: IncomeType;
+
+  //metodo
+  @Column({ type: 'enum', enum: IncomeMethod })
+  income_method: IncomeMethod;
+
 }

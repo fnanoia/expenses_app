@@ -1,6 +1,6 @@
-import { IncomeEntity } from '../income.entity';
+import { IncomeEntity, IncomeType, IncomeMethod } from '../income.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsString } from 'class-validator';
 
 export class CreateIncomeDto extends IncomeEntity {
   @ApiProperty()
@@ -10,4 +10,14 @@ export class CreateIncomeDto extends IncomeEntity {
   @ApiProperty()
   @IsNumber()
   amount: number;
+
+  @ApiProperty()
+  @IsEnum(IncomeType)
+  income_type: IncomeType;
+
+  @ApiProperty()
+  @IsEnum(IncomeMethod)
+  income_method: IncomeMethod;
+  
+  
 }

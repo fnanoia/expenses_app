@@ -79,6 +79,12 @@ export class UserService {
     return { message: 'user deleted successfully' };
   }
 
+  async deleteAll(): Promise<any> {
+    //await this.outcomesRepository.delete({})
+    await this.incomesRepository.delete({})
+    //await this.userRepository.delete({})
+  }
+
   //metodos para agregar INCOMES, OUTCOMES
   async addIncome(id: number, createIncomeDto: CreateIncomeDto) {
     const user = await this.findById(id);

@@ -1,4 +1,4 @@
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsNumber, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../user.entity';
 
@@ -14,4 +14,8 @@ export class CreateUserDto extends UserEntity {
   @IsString()
   @Length(8, 20)
   password: string;
+
+  @ApiProperty()
+  @IsNumber()
+  initial_budget: number;
 }

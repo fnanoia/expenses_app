@@ -44,6 +44,11 @@ export class UserController {
     return await this.userService.deleteById(id);
   }
 
+  @Delete()
+  async deleteAll() {
+    return await this.userService.deleteAll();
+  }
+
   @Post(':id/income')
   async addIncome(
     @Param('id', ParseIntPipe) id: number,
