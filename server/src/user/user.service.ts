@@ -38,6 +38,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException({ message: 'user not found' });
     }
+
     return user;
   }
 
@@ -70,13 +71,14 @@ export class UserService {
     };
 
     await this.userRepository.update(id, newUser);
+
     return { message: 'user updated successfully' };
   }
 
   async deleteById(id: number): Promise<any> {
-    const user = await this.findById(id);
-    await this.userRepository.delete(user);
-    return { message: 'user deleted successfully' };
+    //const user = await this.findById(id);
+    //await this.userRepository.delete(user);
+    //return { message: 'user deleted successfully' };
   }
 
   async deleteAll(): Promise<any> {
@@ -99,7 +101,10 @@ export class UserService {
     });
 
     //guardar y retornar incomes
-    return this.incomesRepository.save(newIncome);
+    await this.incomesRepository.save(newIncome);
+
+    //update table
+    return await this.updateValuesById(id);
   }
 
   async addOutcome(id: number, createOutcomeDto: CreateOutcomeDto) {
@@ -115,42 +120,57 @@ export class UserService {
     });
 
     //guardar y retornar outcomes
-    return this.outcomesRepository.save(newOutcome);
+    await this.outcomesRepository.save(newOutcome);
+
+    //actualizar valores de tablas
+    return await this.updateValuesById(id);
   }
 
+  ///////////////////
   //metodos de calculos
   //suma de ingresos
-  async getIncomesByUserId(id: number): Promise<any> {
-    const totalIncomes = await this.incomesRepository
-      .createQueryBuilder('user_incomes')
-      .select('SUM(user_incomes.amount)', 'total_amount')
+  async getIncomesByUserId(id: number) {
+    const totalIncomes = await this.userRepository
+      .createQueryBuilder('users')
+      .leftJoin('users.incomes', 'user_incomes')
+      .select('SUM(user_incomes.amount)', 'total_incomes')
       .where('user_incomes.userId = :userId', { userId: id })
       .getRawOne();
 
-    return totalIncomes.total_amount;
+    return totalIncomes;
   }
 
   //suma de egresos
-  async getOutcomesByUserId(id: number): Promise<any> {
-    const totalOutcomes = await this.outcomesRepository
-      .createQueryBuilder('user_outomes')
-      .select('SUM(user_outomes.amount)', 'total_amount')
-      .where('user_outomes.userId = :userId', { userId: id })
+  async getOutcomesByUserId(id: number) {
+    const totalOutcomes = await this.userRepository
+      .createQueryBuilder('users')
+      .leftJoin('users.outcomes', 'user_outcomes')
+      .select('SUM(user_outcomes.amount)', 'total_outcomes')
+      .where('user_outcomes.userId = :userId', { userId: id })
       .getRawOne();
 
-    return totalOutcomes.total_amount;
+    return totalOutcomes;
   }
 
   //balance
   async getBalanceByUserId(id: number) {
-    const userBudget = (await this.findById(id)).initial_budget;
+    const { initial_budget, total_incomes, total_outcomes } =
+      await this.userRepository.findOne({ where: { id: id } });
 
-    const incomes = parseFloat(await this.getIncomesByUserId(id));
-    const outcomes = parseFloat(await this.getOutcomesByUserId(id));
+    const balance = initial_budget + total_incomes - total_outcomes;
 
-    //calcular presupuesto incial mas ingresos menos gastos
-    const totalSum = userBudget + incomes - outcomes;
+    return { balance: balance };
+  }
 
-    return totalSum;
+  //////////////////////////
+  //actualizar todos los valores
+  async updateValuesById(id: number): Promise<void> {
+    //update numbers
+    const { total_incomes } = await this.getIncomesByUserId(id);
+    const { total_outcomes } = await this.getOutcomesByUserId(id);
+    const { balance } = await this.getBalanceByUserId(id);
+    const updateUserOperations = { total_incomes, total_outcomes, balance };
+
+    await this.userRepository.update(id, updateUserOperations);
   }
 }

@@ -79,5 +79,10 @@ export class UserController {
   async getBalance(@Param('id', ParseIntPipe) id: number) {
     return await this.userService.getBalanceByUserId(id);
   }
+
+  @Get(':id/updateoperations')
+  async updateOperationsById(@Param('id', ParseIntPipe) id: number) {
+    return await this.userService.updateValuesById(id);
+  }
   
 }

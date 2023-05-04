@@ -1,5 +1,5 @@
 import { UserEntity } from 'src/user/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 //refactor
 export enum IncomeType {
@@ -36,5 +36,4 @@ export class IncomeEntity {
   //metodo
   @Column({ type: 'enum', enum: IncomeMethod })
   income_method: IncomeMethod;
-
 }

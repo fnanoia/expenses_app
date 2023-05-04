@@ -2,7 +2,7 @@ import { IsEmail, IsNumber, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../user.entity';
 
-export class CreateUserDto extends UserEntity {
+export class CreateUserDto {
   //agregar decorador de swagger
   @ApiProperty()
   @IsString()

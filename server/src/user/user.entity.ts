@@ -1,6 +1,11 @@
 import { IncomeEntity } from 'src/incomes/income.entity';
 import { OutcomeEntity } from 'src/outcomes/outcome.entity';
 import {
+  AfterInsert,
+  AfterLoad,
+  AfterRemove,
+  AfterUpdate,
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -34,4 +39,14 @@ export class UserEntity {
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @Column({ type: 'float', nullable: true })
+  total_incomes: number;
+
+  @Column({ type: 'float', nullable: true })
+  total_outcomes: number;
+
+  @Column({ type: 'float', nullable: true })
+  balance: number;
+
 }

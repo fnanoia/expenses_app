@@ -13,6 +13,12 @@ async function bootstrap() {
   //habilitar validaciones de forma global
   app.useGlobalPipes(new ValidationPipe());
 
+  //cors
+  app.enableCors({
+    allowedHeaders:"*",
+    origin: "*"
+});
+
   //swagger docs
   const docsOptions = new DocumentBuilder()
     .setTitle('API documentation')
