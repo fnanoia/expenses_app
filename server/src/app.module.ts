@@ -14,6 +14,8 @@ import {
 import { UserModule } from './user/user.module';
 import { IncomesModule } from './incomes/incomes.module';
 import { OutcomesModule } from './outcomes/outcomes.module';
+import { AuthModule } from './auth/auth.module';
+import { BcryptModule } from './bcrypt/bcrypt.module';
 
 @Module({
   imports: [
@@ -42,6 +44,8 @@ import { OutcomesModule } from './outcomes/outcomes.module';
     UserModule,
     IncomesModule,
     OutcomesModule,
+    AuthModule,
+    BcryptModule,
   ],
   controllers: [AppController],
   providers: [AppService],

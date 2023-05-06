@@ -12,5 +12,6 @@ import { OutcomeEntity } from 'src/outcomes/outcome.entity';
   ],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService]
 })
 export class UserModule {}

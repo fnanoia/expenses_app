@@ -23,7 +23,7 @@ export class UserEntity {
   @Column({ type: 'varchar', length: '20', nullable: false, unique: true })
   email: string;
 
-  @Column({ type: 'varchar', length: '20', nullable: false })
+  @Column({ type: 'varchar',  nullable: false })
   password: string;
 
   @OneToMany(() => IncomeEntity, (income) => income.user)
