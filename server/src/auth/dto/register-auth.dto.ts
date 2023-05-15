@@ -13,7 +13,6 @@ export class RegisterAuthDto extends PartialType(CreateUserDto) {
   password: string;
 
   @ApiProperty()
-  @IsNumber()
   @IsNotEmpty()
   initial_budget: number;
 }
