@@ -1,9 +1,28 @@
-import { useEffect, useRef, useState } from "react";
-import "./App.css";
-import axios from "axios";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Register } from "./pages/Register";
+import { Login } from "./pages/Login";
+import { Home } from "./pages/Home";
+import { Dashboard } from "./pages/Dashboard";
 
 function App() {
-  const [users, setUsers] = useState([]);
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard/:id" element={<Dashboard />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+}
+
+export default App;
+
+/*
+ const [users, setUsers] = useState([]);
   //const idRef = useRef(1);
   
   //console.log(idRef)
@@ -19,12 +38,13 @@ function App() {
     }
   }
 
-  useEffect(() => {
+   useEffect(() => {
     getUsers();
   }, []);
 
-  return (
-    <>
+
+
+
       <div>
         <h1>Users</h1>
         {users.map((user, i) => (
@@ -54,8 +74,4 @@ function App() {
           </table>
         ))}
       </div>
-    </>
-  );
-}
-
-export default App;
+*/
