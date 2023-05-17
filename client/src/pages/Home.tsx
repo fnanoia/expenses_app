@@ -1,9 +1,11 @@
 export const Home = () => {
   return (
     <>
-      <h2>Welcome to expenses_app!</h2>
+    <div className="flex flex-col justify-center items-center ">
 
-      <div>Do not have an account yet?</div>
+      <h2 className="text-3xl font-bold">Welcome to expenses_app!</h2>
+
+      <div >Do not have an account yet?</div>
       <p>
         <a href="/register">Register</a>
       </p>
@@ -12,6 +14,7 @@ export const Home = () => {
       <p>
         <a href="/login">Login</a>
       </p>
+    </div>
     </>
   );
 };
