@@ -38,28 +38,12 @@ export const Dashboard = () => {
       />
       <h2>Incomes</h2>
       <div>
-        {user.incomes.map((income, i) => (
-          <Incomes
-            description={income.description}
-            amount={income.amount}
-            income_method={income.income_method}
-            income_type={income.income_type}
-            key={i}
-          />
-        ))}
+        <Incomes user_incomes={user.incomes} />
       </div>
 
       <h2>Outcomes</h2>
       <div>
-        {user.outcomes.map((outcome, i) => (
-          <Outcomes
-            description={outcome.description}
-            amount={outcome.amount}
-            outcome_method={outcome.outcome_method}
-            outcome_type={outcome.outcome_type}
-            key={i}
-          />
-        ))}
+        <Outcomes user_outcomes={user.outcomes}/>
       </div>
     </>
   );
