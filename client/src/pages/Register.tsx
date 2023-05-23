@@ -11,9 +11,14 @@ export const Register = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
+
+     // Validar si el valor ingresado es un número válido
+     const isValidNumber = !Number.isNaN(parseFloat(value));
+
     setUser({
       ...user,
-      [name]: value,
+      //cambiar el tipo de dato de los formularios de string a number
+      [name]: isValidNumber ? parseFloat(value) : value,
     });
   };
 
@@ -41,9 +46,9 @@ export const Register = () => {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
             />
           </svg>
@@ -62,7 +67,7 @@ export const Register = () => {
             <div className="w-full md:w-full px-3 mb-6">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="Email"
+                htmlFor="email"
               >
                 Email
               </label>

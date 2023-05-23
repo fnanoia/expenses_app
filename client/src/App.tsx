@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
-import { Dashboard } from "./pages/Dashboard";
+import { Panel } from "./pages/Panel";
 
 function App() {
   return (
@@ -10,7 +10,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard/:id" element={<Dashboard />} />
+          <Route path="/panel/:id" element={<Panel />} />
+
         </Routes>
       </BrowserRouter>
     </>
@@ -18,6 +19,5 @@ function App() {
 }
 
 export default App;
-
 
 //<Route path="" element={<Home />} />
