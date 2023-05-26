@@ -2,8 +2,12 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { TIncomes } from "../../types/Incomes";
+import { useParams } from "react-router-dom";
 
-export const AddIncome: React.FC<any> = ({ userId }) => {
+export const AddIncome: React.FC<any> = () => {
+  //id for axios
+  const params = useParams();
+
   const [income, setIncome] = useState<TIncomes>({
     description: "",
     amount: 1,
@@ -28,7 +32,7 @@ export const AddIncome: React.FC<any> = ({ userId }) => {
   async function handleSubmit() {
     try {
       const res = await axios.post<TIncomes>(
-        `http://localhost:8080/user/${userId}/income`,
+        `http://localhost:8080/user/${params.id}/income`,
         income
       );
       console.log(res.data);

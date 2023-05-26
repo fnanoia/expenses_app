@@ -2,8 +2,13 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { TOutcomes } from "../../types/Outcomes";
+import { useParams } from "react-router-dom";
 
-export const AddOutcome: React.FC<any> = ({ userId }) => {
+export const AddOutcome: React.FC<any> = () => {
+  //id for axios
+  const params = useParams();
+
+  //state handler
   const [outcome, setOutcome] = useState<TOutcomes>({
     description: "",
     amount: 1,
@@ -11,6 +16,17 @@ export const AddOutcome: React.FC<any> = ({ userId }) => {
     outcome_method: "",
   });
 
+  //reset form after submit
+  const resetForm = () => {
+    setOutcome({
+      description: "",
+      amount: 1,
+      outcome_type: "",
+      outcome_method: "",
+    });
+  };
+
+  //handle data to submit
   const handleChange = (e: any) => {
     const { name, value } = e.target;
 
@@ -25,12 +41,15 @@ export const AddOutcome: React.FC<any> = ({ userId }) => {
     });
   };
 
+  //submitting data to DB
   async function handleSubmit() {
     try {
       const res = await axios.post<TOutcomes>(
-        `http://localhost:8080/user/${userId}/outcome`,
+        `http://localhost:8080/user/${params.id}/outcome`,
         outcome
       );
+
+      resetForm();
       console.log(res.data);
     } catch (error) {
       console.log(error);
@@ -42,7 +61,9 @@ export const AddOutcome: React.FC<any> = ({ userId }) => {
       <div className="bg-white shadow rounded-lg p-4 mb-7 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Add Outcome</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Add Outcome
+            </h3>
             <span className="text-base font-normal text-gray-500">
               Here you can add your outcomes
             </span>

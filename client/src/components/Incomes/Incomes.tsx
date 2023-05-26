@@ -83,7 +83,7 @@ export const Incomes: React.FC<any> = ({ user_incomes }) => {
         </div>
       </div>
 
-      <AddIncome />
+      <AddIncome/>
     </>
   );
 };

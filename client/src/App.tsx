@@ -6,14 +6,13 @@ import { Panel } from "./pages/Panel";
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/panel/:id" element={<Panel />} />
-
-        </Routes>
-      </BrowserRouter>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/panel/:id" element={<Panel />} />
+          </Routes>
+        </BrowserRouter>
     </>
   );
 }

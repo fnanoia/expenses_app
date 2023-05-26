@@ -17,9 +17,6 @@ export const Panel = () => {
 
   //test toggle
   const [selectedCategory, setSelectedCategory] = useState("");
-  const handleCategoryChange = (category: any) => {
-    setSelectedCategory(category);
-  };
 
   //effects
   useEffect(() => {
@@ -30,7 +27,7 @@ export const Panel = () => {
       setUser(response.data);
     };
     getUser();
-  }, []);
+  }, [user]);
 
   return (
     <>
@@ -67,7 +64,7 @@ export const Panel = () => {
                               ? "active ml-3 flex-1 whitespace-nowrap"
                               : ""
                           }
-                          onClick={() => handleCategoryChange("profile")}
+                          onClick={() => setSelectedCategory("profile")}
                         >
                           My Profile
                         </span>
@@ -92,7 +89,7 @@ export const Panel = () => {
                               ? "active ml-3 flex-1 whitespace-nowrap"
                               : ""
                           }
-                          onClick={() => handleCategoryChange("incomes")}
+                          onClick={() => setSelectedCategory("incomes")}
                         >
                           Incomes
                         </span>
@@ -118,7 +115,7 @@ export const Panel = () => {
                               ? "active ml-3 flex-1 whitespace-nowrap"
                               : ""
                           }
-                          onClick={() => handleCategoryChange("outcomes")}
+                          onClick={() => setSelectedCategory("outcomes")}
                         >
                           Outcomes
                         </span>
@@ -173,7 +170,6 @@ export const Panel = () => {
               </div>
             </div>
           </aside>
-         
 
           <div
             id="main-content"
@@ -182,7 +178,6 @@ export const Panel = () => {
             <main>
               <div className="pt-6 px-4">
                 <div className="w-full  xl:grid-cols-2 2xl:grid-cols-3 gap-4">
-                  
                   {selectedCategory === "profile" && (
                     <User
                       email={user.email}

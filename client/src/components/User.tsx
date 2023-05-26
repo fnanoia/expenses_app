@@ -6,12 +6,10 @@ export const User: React.FC<
 > = ({ email, initial_budget, total_outcomes, total_incomes, balance }) => {
   return (
     <>
-      <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+      <div className="bg-white shadow rounded-lg p-4 mb-7 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-             My profile
-            </h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">My profile</h3>
             <span className="text-base font-normal text-gray-500">
               This is your personal information
             </span>
