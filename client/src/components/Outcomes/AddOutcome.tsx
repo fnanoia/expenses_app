@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { TOutcomes } from "../../types/Outcomes";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../../conext/UserContext";
+import { TUserContextType } from "../../types/User";
 
 export const AddOutcome: React.FC<any> = () => {
   //id for axios
   const params = useParams();
+
+  //context calls
+  const { userToken } = useContext(UserContext) as TUserContextType;
 
   //state handler
   const [outcome, setOutcome] = useState<TOutcomes>({
@@ -46,7 +51,13 @@ export const AddOutcome: React.FC<any> = () => {
     try {
       const res = await axios.post<TOutcomes>(
         `http://localhost:8080/user/${params.id}/outcome`,
-        outcome
+        outcome,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
       );
 
       resetForm();

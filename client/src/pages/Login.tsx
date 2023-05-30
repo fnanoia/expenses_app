@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { TUserForm } from "../types/User";
+import { TUserForm, TUserContextType } from "../types/User";
+import { UserContext } from "../conext/UserContext";
 
 export const Login = () => {
   const [user, setUser] = useState<TUserForm>({
     email: "",
     password: "",
-    initial_budget: 0,
   });
 
   const navigate = useNavigate();
@@ -20,6 +20,11 @@ export const Login = () => {
     });
   };
 
+  //context calls
+  const { setUserToken, setUserId } = useContext(
+    UserContext
+  ) as TUserContextType;
+
   async function handleSubmit() {
     try {
       const res = await axios.post<TUserForm>(
@@ -28,11 +33,11 @@ export const Login = () => {
       );
       const userData = res.data;
 
-      //guardar el id y token
-      const userId = userData.user.id;
+      //save values to context
+      setUserId(userData.user.id);
+      setUserToken(userData.token);
 
-      navigate(`/panel/${userId}`);
-      //return res;
+      navigate(`/panel/${userData.user.id}`);
     } catch (error) {
       console.log(error);
     }

@@ -1,4 +1,5 @@
 export type TIncomes = {
+  id?: number;
   amount: number;
   description: string;
   income_method: string;

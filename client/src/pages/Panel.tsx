@@ -1,16 +1,20 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { TUser } from "../types/User";
+import { useContext, useEffect, useState } from "react";
+import { TUser, TUserContextType } from "../types/User";
 import { User } from "../components/User";
 import { Incomes } from "../components/Incomes/Incomes";
 import { Outcomes } from "../components/Outcomes/Outcomes";
 import { UserState } from "../states/User_state";
 import { NavBar } from "../components/NavBar";
+import { UserContext } from "../conext/UserContext";
+import { useParams } from "react-router-dom";
 
 export const Panel = () => {
   //id for axios
   const params = useParams();
+
+  //context calls
+  const {  userToken } = useContext(UserContext) as TUserContextType;
 
   //states
   const [user, setUser] = useState<TUser>(UserState);
@@ -22,12 +26,20 @@ export const Panel = () => {
   useEffect(() => {
     const getUser = async () => {
       const response = await axios.get(
-        `http://localhost:8080/user/${params.id}`
+        `http://localhost:8080/user/${params.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
       );
+
       setUser(response.data);
     };
     getUser();
-  }, [user]);
+    //[user] erased
+  }, []);
 
   return (
     <>

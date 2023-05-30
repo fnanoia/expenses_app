@@ -4,7 +4,7 @@ import { TOutcomes } from "./Outcomes";
 export type TUserForm = {
   email: string;
   password: string;
-  initial_budget: number;
+  initial_budget?: number;
 };
 
 export type TUser = TUserForm & {
@@ -14,3 +14,16 @@ export type TUser = TUserForm & {
   incomes: TIncomes[];
   outcomes: TOutcomes[];
 };
+
+//context
+export type TUserToken = {
+  userToken: string;
+  setUserToken: (userToken: string) => void;
+};
+
+export type TUserId = {
+  userId: number;
+  setUserId: (userId: number) => void;
+};
+
+export type TUserContextType = TUserToken & TUserId;

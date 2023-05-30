@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { TIncomes } from "../../types/Incomes";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../../conext/UserContext";
+import { TUserContextType } from "../../types/User";
 
 export const AddIncome: React.FC<any> = () => {
   //id for axios
   const params = useParams();
 
+  //context calls
+  const { userToken } = useContext(UserContext) as TUserContextType;
+
+  //state handler
   const [income, setIncome] = useState<TIncomes>({
     description: "",
     amount: 1,
@@ -15,6 +21,17 @@ export const AddIncome: React.FC<any> = () => {
     income_method: "",
   });
 
+  //reset form after submit
+  const resetForm = () => {
+    setIncome({
+      description: "",
+      amount: 1,
+      income_type: "",
+      income_method: "",
+    });
+  };
+
+  //handle data to submit
   const handleChange = (e: any) => {
     const { name, value } = e.target;
 
@@ -29,12 +46,21 @@ export const AddIncome: React.FC<any> = () => {
     });
   };
 
+  //submitting data to DB
   async function handleSubmit() {
     try {
       const res = await axios.post<TIncomes>(
         `http://localhost:8080/user/${params.id}/income`,
-        income
+        income,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
       );
+
+      resetForm();
       console.log(res.data);
     } catch (error) {
       console.log(error);
